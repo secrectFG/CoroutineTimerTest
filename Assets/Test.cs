@@ -10,7 +10,9 @@ public class Test : MonoBehaviour
     {
         Normal,
         Coroutine,
-        TimerTask
+        CoroutineSimple,
+        TimerTask,
+        Coroutine2,
     }
      void CreateNormalTimer(int number)
     {
@@ -42,7 +44,7 @@ public class Test : MonoBehaviour
 
     [SerializeField]
     private int counter = 0;
-    GameObject TimerTask;
+    GameObject temp;
     public void CreateTimer(int nubmer, TimerType type)
     {
         switch (type)
@@ -53,16 +55,37 @@ public class Test : MonoBehaviour
             case TimerType.Coroutine:
                 CreateCoroutineTimer(nubmer);
                 break;
-            case TimerType.TimerTask:
+            case TimerType.CoroutineSimple:
                 {
-                    if (TimerTask == null)
+                    if (temp == null)
                     {
-                        TimerTask = new GameObject($"TimerTask");
+                        temp = new GameObject($"TimerCoroutineSimple");
                     }
-                    var timer = TimerTask.AddComponent<TimerWithTask>();
+                    var timer = temp.AddComponent<TimerCoroutineSimple>();
+                    counter = nubmer;
                     for (int i = 0; i < nubmer; i++)
                     {
-                        
+                        timer.StartTimer(Duration, () =>
+                        {
+                            counter--;
+                            if (counter == 0)
+                            {
+                                Destroy(temp);
+                            }
+                        });
+                    }
+                }
+                break;
+            case TimerType.TimerTask:
+                {
+                    if (temp == null)
+                    {
+                        temp = new GameObject($"TimerWithTask");
+                    }
+                    var timer = temp.AddComponent<TimerWithTask>();
+                    counter = nubmer;
+                    for (int i = 0; i < nubmer; i++)
+                    {
                         var task = timer.CreateTimer();
                         task.Duration = Duration;
                         task.OnComplete += () =>
@@ -70,16 +93,34 @@ public class Test : MonoBehaviour
                             counter--;
                             if (counter == 0)
                             {
-                                Destroy(TimerTask);
+                                Destroy(temp);
                             }
                         };
                         task.StartTimer();
-                        counter++;
                     }
                    
                 }
                 break;
-            default:
+            case TimerType.Coroutine2:
+                {
+                    if (temp == null)
+                    {
+                        temp = new GameObject($"TimerCoroutine2");
+                    }
+                    var timer = temp.AddComponent<TimerCoroutine2>();
+                    counter = nubmer;
+                    for (int i = 0; i < nubmer; i++)
+                    {
+                        timer.StartTimer(Duration, () =>
+                        {
+                            counter--;
+                            if (counter == 0)
+                            {
+                                Destroy(temp);
+                            }
+                        });
+                    }
+                }
                 break;
         }
     }
