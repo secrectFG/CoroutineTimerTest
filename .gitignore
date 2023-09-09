@@ -46,3 +46,4 @@
 /Unity.Services.Core.Threading.csproj
 /Unity.Settings.Editor.csproj
 /Unity.TestTools.CodeCoverage.Editor.csproj
+/.vscode
