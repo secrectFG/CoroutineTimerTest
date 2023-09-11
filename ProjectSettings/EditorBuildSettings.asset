@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/CompareWithUniTask.unity
+    guid: 7c64aee5c91503645886ea2eefbfff39
   m_configObjects: {}

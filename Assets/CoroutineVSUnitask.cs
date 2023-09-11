@@ -8,6 +8,12 @@ public class CoroutineVSUnitask : MonoBehaviour
     public int count = 10000;
 
     bool unitaskCanRun = false;
+
+    private void Start() {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 0;
+    }
+
     public void StartCoroutine(){
         unitaskCanRun = false;
         for(int i = 0; i < count; i++){
@@ -27,7 +33,7 @@ public class CoroutineVSUnitask : MonoBehaviour
         await UniTask.Yield();
         unitaskCanRun = true;
         for(int i = 0; i < count; i++){
-            UniTaskLoop().Forget();
+            _=UniTaskLoop(); 
         }
     }
 
@@ -41,7 +47,7 @@ public class CoroutineVSUnitask : MonoBehaviour
         }
     }
 
-    async UniTaskVoid UniTaskLoop(){
+    public async UniTaskVoid UniTaskLoop(){
         while(unitaskCanRun){
             await UniTask.Yield();
         }
